@@ -39,7 +39,7 @@ class BukuController extends Controller
                 'status' => false,
                 'message' => 'Gagal menambahkan data',
                 'data' => $validator->errors(),
-            ], 422);
+            ]);
         }
         $buku = Buku::create([
             'judul' => $request->judul,
@@ -83,7 +83,7 @@ class BukuController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Data tidak berhasil ditemukan',
-            ], 404);
+            ]);
         }
     }
 
@@ -104,7 +104,7 @@ class BukuController extends Controller
                 'status' => false,
                 'message' => 'Gagal memperbarui data',
                 'data' => $validator->errors(),
-            ], 422);
+            ]);
         }
 
         $buku = Buku::find($id);
