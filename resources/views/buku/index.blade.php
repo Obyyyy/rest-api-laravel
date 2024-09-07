@@ -78,9 +78,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data as $index => $buku)
+                        @php
+                            $index = $data['from'];
+                        @endphp
+                        @foreach ($data['data'] as $buku)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $index }}</td>
                                 <td>{{ $buku['judul'] }}</td>
                                 <td>{{ $buku['pengarang'] }}</td>
                                 <td>{{ date('d/m/Y', strtotime($buku['tanggal_publikasi'])) }}</td>
@@ -94,10 +97,24 @@
                                     </form>
                                 </td>
                             </tr>
+                            @php
+                                $index += 1;
+                            @endphp
                         @endforeach
                     </tbody>
                 </table>
-
+                @if ($data['links'])
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            {{-- <li class="page-item"><a class="page-link" href="#">Previous</a></li> --}}
+                            @foreach ($data['links'] as $item)
+                                <li class="page-item {{ $item['active'] == true ? 'active' : '' }}"><a
+                                        class="page-link" href="{{ $item['url2'] }}">{!! $item['label'] !!}</a></li>
+                            @endforeach
+                            {{-- <li class="page-item"><a class="page-link" href="#">Next</a></li> --}}
+                        </ul>
+                    </nav>
+                @endif
             </div>
             <!-- AKHIR DATA -->
         @endif

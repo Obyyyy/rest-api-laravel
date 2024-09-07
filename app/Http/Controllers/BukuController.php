@@ -10,15 +10,25 @@ class BukuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    const API_URL = "http://127.0.0.1:8000/api/buku";
+
+    public function index(Request $request)
     {
+        $url = static::API_URL;
+        $current_url = url()->current();
+
+        if($request->input('page') != '') {
+            $url .= "?page=". $request->input('page');
+        }
+
         $client = new Client();
-        $url = "http://127.0.0.1:8000/api/buku";
         $response = $client->request('GET', $url);
         $contents = $response->getBody()->getContents();
         $contentsArray = json_decode($contents, true);
         $data = $contentsArray['data'];
-
+        foreach($data['links'] as $key => $value) {
+            $data['links'][$key]['url2'] = str_replace(static::API_URL, $current_url, $value['url']);
+        }
         return view('buku.index', compact('data'));
     }
 
